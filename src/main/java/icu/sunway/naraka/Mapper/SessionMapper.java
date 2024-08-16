@@ -10,7 +10,9 @@ public interface SessionMapper {
     List<Session> getSessions();
 
     @Insert("insert into session(id, player_1_id, player_2_id, round, cards) values (#{id}, #{player_1_id}, #{player_2_id}, 0, '[]')")
-    void addSession(@Param("id") String id, @Param("player_1_id") String player_1_id, @Param("player_2_id") String player_2_id);
+    void addSession(@Param("id") String id,
+                    @Param("player_1_id") String player_1_id,
+                    @Param("player_2_id") String player_2_id);
 
     @Delete("delete from session where id = #{id}")
     void deleteSession(@Param("id") String id);

@@ -7,10 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Session {
+public class Player {
     String id;
-    String player_1_id;
-    String player_2_id;
-    int round;
+    String chosen_action;
+    String chosen_card;
     String cards;
+    Integer health_max;
+    Integer health_cur;
+    String nickname;
+    String status;
 }

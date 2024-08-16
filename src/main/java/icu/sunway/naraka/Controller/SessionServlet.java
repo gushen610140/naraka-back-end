@@ -1,6 +1,7 @@
-package icu.sunway.naraka.Servlet;
+package icu.sunway.naraka.Controller;
 
 import com.google.gson.Gson;
+import icu.sunway.naraka.Entity.VO.Result;
 import icu.sunway.naraka.Entity.Session;
 import icu.sunway.naraka.Mapper.SessionMapper;
 import icu.sunway.naraka.utils.MybatisUtils;
@@ -23,8 +24,9 @@ public class SessionServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         List<Session> sessionList = sessionMapper.getSessions();
+        Result<List<Session>> result = new Result<>(200, "获取会话成功", sessionList);
         res.setContentType("application/json");
-        res.getWriter().write(gson.toJson(sessionList));
+        res.getWriter().write(gson.toJson(result));
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) {
