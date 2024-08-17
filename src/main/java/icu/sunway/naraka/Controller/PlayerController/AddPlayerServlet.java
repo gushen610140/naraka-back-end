@@ -1,4 +1,4 @@
-package icu.sunway.naraka.Controller;
+package icu.sunway.naraka.Controller.PlayerController;
 
 import icu.sunway.naraka.Service.Implement.PlayerServiceImpl;
 import icu.sunway.naraka.Service.PlayerService;

@@ -1,6 +1,7 @@
 package icu.sunway.naraka.Service.Implement;
 
 import com.google.gson.Gson;
+import icu.sunway.naraka.Entity.DO.Player;
 import icu.sunway.naraka.Entity.VO.Result;
 import icu.sunway.naraka.Mapper.PlayerMapper;
 import icu.sunway.naraka.Service.PlayerService;
@@ -29,5 +30,13 @@ public class PlayerServiceImpl implements PlayerService {
         playerMapper.insert(id, nickname);
         resp.setContentType("application/json");
         resp.getWriter().write(gson.toJson(new Result<>(200, "添加用户成功", id)));
+    }
+
+    @Override
+    public void getById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = req.getParameter("id");
+        Player player = playerMapper.getById(id);
+        resp.setContentType("application/json");
+        resp.getWriter().write(gson.toJson(new Result<>(200, "获取用户成功", player)));
     }
 }
