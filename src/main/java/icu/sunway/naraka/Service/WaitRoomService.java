@@ -1,6 +1,5 @@
 package icu.sunway.naraka.Service;
 
-import icu.sunway.naraka.Entity.DO.WaitRoom;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -10,4 +9,10 @@ public interface WaitRoomService {
     void addWaitRoom(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
     void getById(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+
+    void checkSpace(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+
+    void getAlL(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+
+    void joinRoom(HttpServletRequest req, HttpServletResponse resp);
 }

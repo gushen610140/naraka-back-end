@@ -4,6 +4,9 @@ import icu.sunway.naraka.Entity.DO.WaitRoom;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 public interface WaitRoomMapper {
     @Insert("insert into wait_room_table(id, player_1_id, status, room_name) values (#{id}, #{player_1_id}, 'waiting', #{room_name})")
@@ -13,4 +16,11 @@ public interface WaitRoomMapper {
 
     @Select("select * from wait_room_table where id = #{id}")
     WaitRoom getById(@Param("id") String id);
+
+    @Select("select * from wait_room_table")
+    List<WaitRoom> getAll();
+
+    @Update("update wait_room_table set player_2_id = #{player_2_id} where id = #{id}")
+    void update_player_2_id(@Param("id") String id,
+                            @Param("player_2_id") String player_2_id);
 }
