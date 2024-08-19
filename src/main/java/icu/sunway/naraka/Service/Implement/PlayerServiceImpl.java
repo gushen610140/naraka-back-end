@@ -39,4 +39,12 @@ public class PlayerServiceImpl implements PlayerService {
         resp.setContentType("application/json");
         resp.getWriter().write(gson.toJson(new Result<>(200, "获取用户成功", player)));
     }
+
+    @Override
+    public void updateStatus(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = req.getParameter("id");
+        String status = req.getParameter("status");
+        playerMapper.updateStatus(id, status);
+        resp.getWriter().write(gson.toJson(new Result<>(200, "更改状态成功", true)));
+    }
 }

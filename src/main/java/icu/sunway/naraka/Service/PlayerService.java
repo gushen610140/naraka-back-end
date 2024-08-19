@@ -9,4 +9,6 @@ public interface PlayerService {
     void addPlayer(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
     void getById(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+
+    void updateStatus(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 }
