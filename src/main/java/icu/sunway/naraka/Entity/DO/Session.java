@@ -1,4 +1,4 @@
-package icu.sunway.naraka.Entity;
+package icu.sunway.naraka.Entity.DO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,6 @@ public class Session {
     String id;
     String player_1_id;
     String player_2_id;
-    int round;
-    String cards;
+    String wait_room_id;
+    String status;
 }

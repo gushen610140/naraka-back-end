@@ -1,10 +1,7 @@
 package icu.sunway.naraka.Mapper;
 
 import icu.sunway.naraka.Entity.DO.WaitRoom;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -23,4 +20,7 @@ public interface WaitRoomMapper {
     @Update("update wait_room_table set player_2_id = #{player_2_id} where id = #{id}")
     void update_player_2_id(@Param("id") String id,
                             @Param("player_2_id") String player_2_id);
+
+    @Delete("delete from wait_room_table where id = #{id}")
+    void delete(@Param("id") String id);
 }

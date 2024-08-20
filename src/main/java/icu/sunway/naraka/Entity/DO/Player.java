@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Player {
     String id;
-    String chosen_action;
+    Integer chosen_action;
     String chosen_card;
     String cards;
     Integer health_max;

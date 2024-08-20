@@ -16,11 +16,11 @@ import java.util.List;
 
 public class WaitRoomServiceImpl implements WaitRoomService {
 
+    private static final WaitRoomServiceImpl waitRoomService = new WaitRoomServiceImpl();
     private final Gson gson = new Gson();
     private final SqlSession sqlSession = MybatisUtils.getSqlSession();
     private final WaitRoomMapper waitRoomMapper = sqlSession.getMapper(WaitRoomMapper.class);
 
-    private static final WaitRoomServiceImpl waitRoomService = new WaitRoomServiceImpl();
     public static WaitRoomServiceImpl getInstance() {
         return waitRoomService;
     }
@@ -66,9 +66,19 @@ public class WaitRoomServiceImpl implements WaitRoomService {
     }
 
     @Override
-    public void joinRoom(HttpServletRequest req, HttpServletResponse resp){
+    public void joinRoom(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
         String player_2_id = req.getParameter("player_2_id");
         waitRoomMapper.update_player_2_id(id, player_2_id);
+    }
+
+    @Override
+    public void delete(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            String id = req.getParameter("id");
+            waitRoomMapper.delete(id);
+        } catch (Exception e) {
+            System.out.println("<delete> Error: " + e.getMessage());
+        }
     }
 }

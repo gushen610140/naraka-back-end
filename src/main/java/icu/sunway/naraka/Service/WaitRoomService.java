@@ -15,4 +15,6 @@ public interface WaitRoomService {
     void getAlL(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
     void joinRoom(HttpServletRequest req, HttpServletResponse resp);
+
+    void delete(HttpServletRequest req, HttpServletResponse resp);
 }
