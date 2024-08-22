@@ -1,6 +1,7 @@
 package icu.sunway.naraka.Mapper;
 
 import icu.sunway.naraka.Entity.DO.Player;
+import icu.sunway.naraka.Entity.Enum.ActionName;
 import org.apache.ibatis.annotations.*;
 
 public interface PlayerMapper {
@@ -17,7 +18,7 @@ public interface PlayerMapper {
 
     @Update("update player set chosen_action = #{chosen_action} where id = #{id}")
     void updateChosenAction(@Param("id") String id,
-                            @Param("chosen_action") Integer chosen_action);
+                            @Param("chosen_action") ActionName chosen_action);
 
     @Update("update player set health_cur = #{health_cur} where id = #{id}")
     void updateHealthCur(@Param("id") String id,

@@ -7,12 +7,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/api/player/attack")
-public class UpdateAttack extends HttpServlet {
+@WebServlet("/api/player/execute_attack")
+public class ExecuteAttackServlet extends HttpServlet {
     final PlayerService playerService = PlayerServiceImpl.getInstance();
 
     @Override
     public void doPut(HttpServletRequest req, HttpServletResponse resp) {
-        playerService.updateChosenAction(req, resp);
+        playerService.executeAttack(req, resp);
     }
 }

@@ -12,7 +12,7 @@ public interface PlayerService {
 
     void updateStatus(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 
-    void updateChosenAction(HttpServletRequest req, HttpServletResponse resp);
+    void confirmAction(HttpServletRequest req, HttpServletResponse resp);
 
-    void attackCompute(HttpServletRequest req, HttpServletResponse resp);
+    void executeAttack(HttpServletRequest req, HttpServletResponse resp);
 }
