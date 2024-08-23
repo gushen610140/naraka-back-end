@@ -5,7 +5,7 @@ import icu.sunway.naraka.Entity.Enum.ActionName;
 import org.apache.ibatis.annotations.*;
 
 public interface PlayerMapper {
-    @Insert("insert into player(id, nickname, status, health_cur, health_max, chosen_action) values (#{id}, #{nickname}, 'not ready', 3000, 3000, 0)")
+    @Insert("insert into player(id, nickname, status, health_cur, health_max, chosen_action) values (#{id}, #{nickname}, 'not ready', 3000, 3000, 'none')")
     void insert(@Param("id") String id,
                 @Param("nickname") String nickname);
 
@@ -25,5 +25,9 @@ public interface PlayerMapper {
                          @Param("health_cur") Integer health_cur);
 
     @Delete("delete from player where id = #{id}")
-    void delete(@Param("id") String id);
+    void remove(@Param("id") String id);
+
+    @Update("update player set rage = #{rage} where id = #{id}")
+    void updateRage(@Param("id") String id,
+                    @Param("rage") int rage);
 }

@@ -14,5 +14,5 @@ public interface PlayerService {
 
     void confirmAction(HttpServletRequest req, HttpServletResponse resp);
 
-    void executeAttack(HttpServletRequest req, HttpServletResponse resp);
+    void remove(HttpServletRequest req, HttpServletResponse resp);
 }

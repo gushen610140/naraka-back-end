@@ -59,8 +59,8 @@ public class SessionServiceImpl implements SessionService {
         try {
             String id = req.getParameter("id");
             Session session = sessionMapper.getOne(id);
-            playerMapper.delete(session.getPlayer_1_id());
-            playerMapper.delete(session.getPlayer_2_id());
+            playerMapper.remove(session.getPlayer_1_id());
+            playerMapper.remove(session.getPlayer_2_id());
             sessionMapper.delete(id);
         } catch (Exception e) {
             System.out.println("<delete> Error: " + e.getMessage());
