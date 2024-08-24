@@ -3,9 +3,12 @@ package icu.sunway.naraka.Service.GameLogicService;
 import icu.sunway.naraka.Entity.DO.Action;
 import icu.sunway.naraka.Entity.DO.Player;
 import icu.sunway.naraka.Entity.Enum.ActionName;
+import icu.sunway.naraka.Entity.Enum.CardName;
 import icu.sunway.naraka.Entity.VO.RoundResult;
+import icu.sunway.naraka.Mapper.CardPlayerMapper;
 import icu.sunway.naraka.Mapper.PlayerMapper;
 import icu.sunway.naraka.utils.MybatisUtils;
+import icu.sunway.naraka.utils.UUIDUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.ibatis.session.SqlSession;
 
@@ -16,6 +19,7 @@ public class ActionComputer {
     private static final ActionComputer actionComputer = new ActionComputer();
     private final SqlSession sqlSession = MybatisUtils.getSqlSession();
     private final PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
+    private final CardPlayerMapper cardPlayerMapper = sqlSession.getMapper(CardPlayerMapper.class);
 
     public static ActionComputer getInstance() {
         return actionComputer;
@@ -145,6 +149,9 @@ public class ActionComputer {
         playerMapper.updateRage(player_opponent.getId(), player_opponent.getRage());
         playerMapper.updateChosenAction(player_me.getId(), ActionName.none);
         playerMapper.updateChosenAction(player_opponent.getId(), ActionName.none);
+
+        cardPlayerMapper.add(UUIDUtils.generateUUID(), player_me.getId(), CardName.randomCardName());
+        cardPlayerMapper.add(UUIDUtils.generateUUID(), player_opponent.getId(), CardName.randomCardName());
 
         roundResult.setNewPlayerMe(player_me);
         roundResult.setNewPlayerOpponent(player_opponent);

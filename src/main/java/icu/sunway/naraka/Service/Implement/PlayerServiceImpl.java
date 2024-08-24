@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import icu.sunway.naraka.Entity.DO.Action;
 import icu.sunway.naraka.Entity.DO.Player;
 import icu.sunway.naraka.Entity.Enum.ActionName;
+import icu.sunway.naraka.Entity.Enum.CardName;
 import icu.sunway.naraka.Entity.VO.Result;
 import icu.sunway.naraka.Entity.VO.RoundResult;
 import icu.sunway.naraka.Mapper.ActionMapper;
+import icu.sunway.naraka.Mapper.CardPlayerMapper;
 import icu.sunway.naraka.Mapper.PlayerMapper;
 import icu.sunway.naraka.Service.GameLogicService.ActionComputer;
 import icu.sunway.naraka.Service.PlayerService;
@@ -25,6 +27,7 @@ public class PlayerServiceImpl implements PlayerService {
     private final SqlSession sqlSession = MybatisUtils.getSqlSession();
     private final PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
     private final ActionMapper actionMapper = sqlSession.getMapper(ActionMapper.class);
+    private final CardPlayerMapper cardPlayerMapper = sqlSession.getMapper(CardPlayerMapper.class);
 
     public static PlayerServiceImpl getInstance() {
         return playerService;
@@ -35,6 +38,8 @@ public class PlayerServiceImpl implements PlayerService {
         String nickname = req.getParameter("nickname");
         String id = UUIDUtils.generateUUID();
         playerMapper.insert(id, nickname);
+        // 开局送一张卡
+        cardPlayerMapper.add(UUIDUtils.generateUUID(), id, CardName.randomCardName());
         resp.setContentType("application/json");
         resp.getWriter().write(gson.toJson(new Result<>(200, "添加用户成功", id)));
     }
