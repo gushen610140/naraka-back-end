@@ -3,9 +3,13 @@ package icu.sunway.naraka.Service.GameLogicService;
 import icu.sunway.naraka.Entity.DO.Action;
 import icu.sunway.naraka.Entity.DO.Player;
 import icu.sunway.naraka.Entity.Enum.ActionName;
+import icu.sunway.naraka.Entity.VO.RoundResult;
 import icu.sunway.naraka.Mapper.PlayerMapper;
 import icu.sunway.naraka.utils.MybatisUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.ibatis.session.SqlSession;
+
+import java.lang.reflect.InvocationTargetException;
 
 @SuppressWarnings("DuplicateBranchesInSwitch")
 public class ActionComputer {
@@ -17,7 +21,21 @@ public class ActionComputer {
         return actionComputer;
     }
 
-    public void computeAction(Player player_me, Player player_opponent, Action action_me, Action action_opponent) {
+    public RoundResult computeAction(Player player_me, Player player_opponent, Action action_me, Action action_opponent) {
+
+        RoundResult roundResult = new RoundResult();
+        Player oldPlayerMe = new Player();
+        Player oldPlayerOpponent = new Player();
+        // 浅拷贝 Player 对象到 RoundResult 中
+        try {
+            BeanUtils.copyProperties(oldPlayerMe, player_me);
+            BeanUtils.copyProperties(oldPlayerOpponent, player_opponent);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            System.out.println(e.getMessage());
+        }
+        roundResult.setOldPlayerMe(oldPlayerMe);
+        roundResult.setOldPlayerOpponent(oldPlayerOpponent);
+
         switch (action_me.getName()) {
             case flick:
                 switch (action_opponent.getName()) {
@@ -127,5 +145,10 @@ public class ActionComputer {
         playerMapper.updateRage(player_opponent.getId(), player_opponent.getRage());
         playerMapper.updateChosenAction(player_me.getId(), ActionName.none);
         playerMapper.updateChosenAction(player_opponent.getId(), ActionName.none);
+
+        roundResult.setNewPlayerMe(player_me);
+        roundResult.setNewPlayerOpponent(player_opponent);
+
+        return roundResult;
     }
 }

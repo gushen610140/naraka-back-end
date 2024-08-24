@@ -5,6 +5,7 @@ import icu.sunway.naraka.Entity.DO.Action;
 import icu.sunway.naraka.Entity.DO.Player;
 import icu.sunway.naraka.Entity.Enum.ActionName;
 import icu.sunway.naraka.Entity.VO.Result;
+import icu.sunway.naraka.Entity.VO.RoundResult;
 import icu.sunway.naraka.Mapper.ActionMapper;
 import icu.sunway.naraka.Mapper.PlayerMapper;
 import icu.sunway.naraka.Service.GameLogicService.ActionComputer;
@@ -69,10 +70,10 @@ public class PlayerServiceImpl implements PlayerService {
                 // 对手已准备，开始结算伤害
                 Action action_me = actionMapper.get(player_me.getChosen_action());
                 Action action_opponent = actionMapper.get(player_opponent.getChosen_action());
-                actionComputer.computeAction(player_me, player_opponent, action_me, action_opponent);
-                resp.getWriter().write(gson.toJson(new Result<>(200, "对手已经准备", true)));
+                RoundResult roundResult = actionComputer.computeAction(player_me, player_opponent, action_me, action_opponent);
+                resp.getWriter().write(gson.toJson(new Result<>(200, "对手已经准备", roundResult)));
             } else {
-                resp.getWriter().write(gson.toJson(new Result<>(400, "对手未准备", false)));
+                resp.getWriter().write(gson.toJson(new Result<>(400, "对手未准备", null)));
             }
         } catch (Exception e) {
             System.out.println("<updateChosenAction> Error: " + e.getMessage());
