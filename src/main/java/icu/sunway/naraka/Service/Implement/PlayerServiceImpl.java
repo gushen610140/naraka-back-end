@@ -1,13 +1,11 @@
 package icu.sunway.naraka.Service.Implement;
 
 import com.google.gson.Gson;
-import icu.sunway.naraka.Entity.DO.Action;
 import icu.sunway.naraka.Entity.DO.Player;
 import icu.sunway.naraka.Entity.Enum.ActionName;
 import icu.sunway.naraka.Entity.Enum.CardName;
 import icu.sunway.naraka.Entity.VO.Result;
 import icu.sunway.naraka.Entity.VO.RoundResult;
-import icu.sunway.naraka.Mapper.ActionMapper;
 import icu.sunway.naraka.Mapper.CardPlayerMapper;
 import icu.sunway.naraka.Mapper.PlayerMapper;
 import icu.sunway.naraka.Service.GameLogicService.ActionComputer;
@@ -26,7 +24,6 @@ public class PlayerServiceImpl implements PlayerService {
     private final ActionComputer actionComputer = ActionComputer.getInstance();
     private final SqlSession sqlSession = MybatisUtils.getSqlSession();
     private final PlayerMapper playerMapper = sqlSession.getMapper(PlayerMapper.class);
-    private final ActionMapper actionMapper = sqlSession.getMapper(ActionMapper.class);
     private final CardPlayerMapper cardPlayerMapper = sqlSession.getMapper(CardPlayerMapper.class);
 
     public static PlayerServiceImpl getInstance() {
@@ -66,16 +63,18 @@ public class PlayerServiceImpl implements PlayerService {
             String player_me_id = req.getParameter("player_me_id");
             String player_opponent_id = req.getParameter("player_opponent_id");
             ActionName chosen_action = ActionName.valueOf(req.getParameter("chosen_action"));
+            String chosen_card = req.getParameter("chosen_card");
 
             playerMapper.updateChosenAction(player_me_id, chosen_action);
+            if (chosen_card != null) {
+                playerMapper.updateChosenCard(player_me_id, chosen_card);
+            }
 
             Player player_me = playerMapper.getById(player_me_id);
             Player player_opponent = playerMapper.getById(player_opponent_id);
             if (player_opponent.getChosen_action() != ActionName.none) {
                 // 对手已准备，开始结算伤害
-                Action action_me = actionMapper.get(player_me.getChosen_action());
-                Action action_opponent = actionMapper.get(player_opponent.getChosen_action());
-                RoundResult roundResult = actionComputer.computeAction(player_me, player_opponent, action_me, action_opponent);
+                RoundResult roundResult = actionComputer.computeAction(player_me, player_opponent);
                 resp.getWriter().write(gson.toJson(new Result<>(200, "对手已经准备", roundResult)));
             } else {
                 resp.getWriter().write(gson.toJson(new Result<>(400, "对手未准备", null)));
@@ -89,5 +88,7 @@ public class PlayerServiceImpl implements PlayerService {
     public void remove(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
         playerMapper.remove(id);
+        // 清除卡片
+        cardPlayerMapper.removeByPlayer(id);
     }
 }

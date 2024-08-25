@@ -3,6 +3,7 @@ package icu.sunway.naraka.Service.Implement;
 import com.google.gson.Gson;
 import icu.sunway.naraka.Entity.DO.Card;
 import icu.sunway.naraka.Entity.DO.CardPlayer;
+import icu.sunway.naraka.Entity.VO.CardVO;
 import icu.sunway.naraka.Entity.VO.Result;
 import icu.sunway.naraka.Mapper.CardMapper;
 import icu.sunway.naraka.Mapper.CardPlayerMapper;
@@ -33,9 +34,16 @@ public class CardServiceImpl implements ICardService {
         // 清理缓存，防止相同sql语句不再访问数据库
         sqlSession.clearCache();
         List<CardPlayer> cardPlayerList = cardPlayerMapper.listByPlayer(player_id);
-        List<Card> cardList = new ArrayList<>();
+        List<CardVO> cardList = new ArrayList<>();
         for (CardPlayer cardPlayer : cardPlayerList) {
-            cardList.add(cardMapper.get(cardPlayer.getCard_name()));
+            CardVO card = new CardVO();
+            card.setId(cardPlayer.getId());
+            Card cardInfo = cardMapper.get(cardPlayer.getCard_name());
+            card.setName(cardInfo.getName());
+            card.setCn_name(cardInfo.getCn_name());
+            card.setRage(cardInfo.getRage());
+            card.setIntro(cardInfo.getIntro());
+            cardList.add(card);
         }
 
         try {

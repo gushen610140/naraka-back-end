@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Card {
     private CardName name;
-    private String effect;
     private String intro;
+    private int rage;
+    private String cn_name;
 }

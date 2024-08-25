@@ -1,6 +1,6 @@
-package icu.sunway.naraka.Entity.DO;
+package icu.sunway.naraka.Entity.VO;
 
-import icu.sunway.naraka.Entity.Enum.ActionName;
+import icu.sunway.naraka.Entity.Enum.CardName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Action {
-    private ActionName name;
-    private int value;
+public class CardVO {
+    private String id;
+    private CardName name;
     private String intro;
+    private int rage;
     private String cn_name;
 }

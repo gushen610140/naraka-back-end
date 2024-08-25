@@ -30,4 +30,11 @@ public interface PlayerMapper {
     @Update("update player set rage = #{rage} where id = #{id}")
     void updateRage(@Param("id") String id,
                     @Param("rage") int rage);
+
+    @Update("update player set chosen_card = #{chosen_card} where id = #{id}")
+    void updateChosenCard(@Param("id") String id,
+                          @Param("chosen_card") String chosen_card);
+
+    @Select("select chosen_card from player where id = #{id}")
+    String getChosenCard(@Param("id") String id);
 }
