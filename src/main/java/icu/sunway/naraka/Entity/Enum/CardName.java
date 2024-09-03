@@ -6,7 +6,13 @@ public enum CardName {
     cy,
     zw,
     lyb,
-    ssj;
+    ssj,
+    bb,
+    qj,
+    lyh,
+    cjh,
+    jyy,
+    why;
 
 
     public static CardName randomCardName() {

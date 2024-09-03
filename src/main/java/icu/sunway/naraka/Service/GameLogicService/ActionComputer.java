@@ -104,7 +104,10 @@ public class ActionComputer {
                     }
                     break;
                 case cy:
-                    player_me.setRage(player_me.getRage() + 3);
+                    player_me.setRage(player_me.getRage() + 4);
+                    break;
+                case qj:
+                    player_me.setRage(player_me.getRage() + 1);
                     break;
                 case ssj:
                     if (action_me.getName() == ActionName.flick) {
@@ -112,6 +115,11 @@ public class ActionComputer {
                     }
                     if (action_opponent.getName() == ActionName.pound) {
                         action_opponent.setValue(0);
+                    }
+                    break;
+                case lyh:
+                    if (action_me.getName() == ActionName.pound) {
+                        action_me.setValue(action_me.getValue() + 100);
                     }
                     break;
             }
@@ -124,7 +132,10 @@ public class ActionComputer {
                     }
                     break;
                 case cy:
-                    player_opponent.setRage(player_opponent.getRage() + 3);
+                    player_opponent.setRage(player_opponent.getRage() + 4);
+                    break;
+                case qj:
+                    player_opponent.setRage(player_opponent.getRage() + 1);
                     break;
                 case ssj:
                     if (action_opponent.getName() == ActionName.flick) {
@@ -132,6 +143,11 @@ public class ActionComputer {
                     }
                     if (action_me.getName() == ActionName.pound) {
                         action_me.setValue(0);
+                    }
+                    break;
+                case lyh:
+                    if (action_me.getName() == ActionName.pound) {
+                        action_me.setValue(action_me.getValue() + 100);
                     }
                     break;
             }
@@ -241,28 +257,62 @@ public class ActionComputer {
                 break;
         }
 
-        // 卡牌逻辑2
+        // 卡牌逻辑1.5
         if (card_me != null) {
             switch (card_me) {
-                case lyb:
-                    player_me.setHealth_cur(oldPlayerMe.getHealth_cur());
-                    player_me.setRage(oldPlayerMe.getRage());
-                    player_me.setHealth_max(oldPlayerMe.getHealth_max());
-                    player_opponent.setHealth_cur(oldPlayerOpponent.getHealth_cur());
-                    player_opponent.setRage(oldPlayerOpponent.getRage());
-                    player_opponent.setHealth_max(oldPlayerOpponent.getHealth_max());
+                case why:
+                    player_opponent.setHealth_cur((int) ((oldPlayerMe.getHealth_cur() - player_me.getHealth_cur()) * 0.5));
                     break;
             }
         }
         if (card_opponent != null) {
             switch (card_opponent) {
+                case why:
+                    player_me.setHealth_cur((int) ((oldPlayerOpponent.getHealth_cur() - player_opponent.getHealth_cur()) * 0.5));
+                    break;
+            }
+        }
+
+        // 卡牌逻辑2
+        if (card_me != null) {
+            switch (card_me) {
+                case cjh:
+                    if (action_me.getName() == ActionName.bounce && action_opponent.getName() == ActionName.flick) {
+                        player_me.setHealth_cur(oldPlayerMe.getHealth_cur());
+                        player_opponent.setHealth_cur(oldPlayerOpponent.getHealth_cur() - 200);
+                    }
+                    break;
                 case lyb:
-                    player_opponent.setHealth_cur(oldPlayerOpponent.getHealth_cur());
-                    player_opponent.setRage(oldPlayerOpponent.getRage());
+                    player_me.setHealth_cur(oldPlayerMe.getHealth_cur() - 200);
+                    break;
+                case bb:
+                    player_me.setHealth_cur(oldPlayerMe.getHealth_max());
+                    player_me.setRage(0);
                     player_opponent.setHealth_max(oldPlayerOpponent.getHealth_max());
-                    player_me.setHealth_cur(oldPlayerMe.getHealth_cur());
-                    player_me.setRage(oldPlayerMe.getRage());
-                    player_me.setHealth_max(oldPlayerMe.getHealth_max());
+                    break;
+                case jyy:
+                    player_me.setHealth_cur(player_me.getHealth_cur() + 200);
+                    break;
+            }
+        }
+        if (card_opponent != null) {
+            switch (card_opponent) {
+                case cjh:
+                    if (action_opponent.getName() == ActionName.bounce && action_me.getName() == ActionName.flick) {
+                        player_opponent.setHealth_cur(oldPlayerOpponent.getHealth_cur());
+                        player_me.setHealth_cur(oldPlayerMe.getHealth_cur() - 200);
+                    }
+                    break;
+                case lyb:
+                    player_opponent.setHealth_cur(oldPlayerOpponent.getHealth_cur() - 200);
+                    break;
+                case bb:
+                    player_opponent.setHealth_cur(oldPlayerOpponent.getHealth_max());
+                    player_opponent.setRage(0);
+                    player_me.setHealth_max(oldPlayerOpponent.getHealth_max());
+                    break;
+                case jyy:
+                    player_opponent.setHealth_cur(player_me.getHealth_cur() + 200);
                     break;
             }
         }
